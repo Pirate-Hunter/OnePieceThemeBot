@@ -480,7 +480,7 @@ def warlordlist(update: Update, context: CallbackContext):
 @whitelist_plus
 def supportlist(update: Update, context: CallbackContext):
     bot = context.bot
-    reply = "<b>Known Demon powers 👹:</b>\n"
+    reply = "<b>Known Adirals:</b>\n"
     for each_user in ADMIRALS:
         user_id = int(each_user)
         try:
