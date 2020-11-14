@@ -3,18 +3,18 @@ import json
 import os
 from typing import Optional
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, WORLD_GOVT, SUPPORT_CHAT, ADMIRALS,
+from OnePieceBot import (DEV_USERS, OWNER_ID, WORLD_GOVT, SUPPORT_CHAT, ADMIRALS,
                           WARLORDS, REVOLUTIONARIES, dispatcher)
-from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
+from OnePieceBot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
                                                            whitelist_plus)
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot.modules.log_channel import gloggable
+from OnePieceBot.modules.helper_funcs.extraction import extract_user
+from OnePieceBot.modules.log_channel import gloggable
 from telegram import ParseMode, TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
 ELEVATED_USERS_FILE = os.path.join(os.getcwd(),
-                                   'SaitamaRobot/elevated_users.json')
+                                   'OnePieceBot/elevated_users.json')
 
 
 def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:

@@ -2,14 +2,14 @@ import html
 # AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
 from time import sleep, time
 
-import SaitamaRobot.modules.sql.chatbot_sql as sql
+import OnePieceBot.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
-from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
-from SaitamaRobot.modules.log_channel import gloggable
+from OnePieceBot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
+from OnePieceBot.modules.helper_funcs.chat_status import user_admin
+from OnePieceBot.modules.helper_funcs.filters import CustomFilters
+from OnePieceBot.modules.log_channel import gloggable
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import (CallbackContext, CommandHandler, Filters,

@@ -4,21 +4,21 @@ import re
 import time
 from functools import partial
 
-import SaitamaRobot.modules.sql.welcome_sql as sql
-from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS,
+import OnePieceBot.modules.sql.welcome_sql as sql
+from OnePieceBot import (DEV_USERS, LOGGER, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS,
                           REVOLUTIONARIES, sw, dispatcher, JOIN_LOGGER)
-from SaitamaRobot.modules.helper_funcs.chat_status import (
+from OnePieceBot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
     user_admin,
 )
-from SaitamaRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
-from SaitamaRobot.modules.helper_funcs.msg_types import get_welcome_type
-from SaitamaRobot.modules.helper_funcs.string_handling import (
+from OnePieceBot.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from OnePieceBot.modules.helper_funcs.msg_types import get_welcome_type
+from OnePieceBot.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets,
     markdown_parser,
 )
-from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
+from OnePieceBot.modules.log_channel import loggable
+from OnePieceBot.modules.sql.global_bans_sql import is_user_gbanned
 from telegram import (
     ChatPermissions,
     InlineKeyboardButton,

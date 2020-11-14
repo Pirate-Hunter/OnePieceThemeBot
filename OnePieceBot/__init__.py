@@ -96,7 +96,7 @@ if ENV:
             "Your blacklisted chats list does not contain valid integers.")
 
 else:
-    from SaitamaRobot.config import Development as Config
+    from OnePieceBot.config import Development as Config
     TOKEN = Config.TOKEN
 
     try:
@@ -184,7 +184,7 @@ ADMIRALS = list(ADMIRALS)
 WARLORDS = list(WARLORDS)
 
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import (CustomCommandHandler,
+from OnePieceBot.modules.helper_funcs.handlers import (CustomCommandHandler,
                                                         CustomMessageHandler,
                                                         CustomRegexHandler)
 

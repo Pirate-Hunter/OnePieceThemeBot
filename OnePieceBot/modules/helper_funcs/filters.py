@@ -1,4 +1,4 @@
-from SaitamaRobot import DEV_USERS, WORLD_GOVT, ADMIRALS
+from OnePieceBot import DEV_USERS, WORLD_GOVT, ADMIRALS
 from telegram import Message
 from telegram.ext import BaseFilter
 

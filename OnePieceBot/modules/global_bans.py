@@ -2,18 +2,18 @@ import html
 import time
 from datetime import datetime
 from io import BytesIO
-from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
-import SaitamaRobot.modules.sql.global_bans_sql as sql
-from SaitamaRobot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN, WORLD_GOVT,
+from OnePieceBot.modules.sql.users_sql import get_user_com_chats
+import OnePieceBot.modules.sql.global_bans_sql as sql
+from OnePieceBot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN, WORLD_GOVT,
                           SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT, ADMIRALS, WARLORDS,
                           REVOLUTIONARIES, sw, dispatcher)
-from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
+from OnePieceBot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
                                                            user_admin)
-from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
+from OnePieceBot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
-from SaitamaRobot.modules.helper_funcs.misc import send_to_list
-from SaitamaRobot.modules.sql.users_sql import get_all_chats
+from OnePieceBot.modules.helper_funcs.misc import send_to_list
+from OnePieceBot.modules.sql.users_sql import get_all_chats
 from telegram import ParseMode, Update
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import (CallbackContext, CommandHandler, Filters,

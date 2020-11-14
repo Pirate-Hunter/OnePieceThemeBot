@@ -1,12 +1,12 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 import html
-import SaitamaRobot.modules.sql.blacklistusers_sql as sql
-from SaitamaRobot import (DEV_USERS, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS, REVOLUTIONARIES,
+import OnePieceBot.modules.sql.blacklistusers_sql as sql
+from OnePieceBot import (DEV_USERS, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS, REVOLUTIONARIES,
                           dispatcher)
-from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
-from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
+from OnePieceBot.modules.helper_funcs.chat_status import dev_plus
+from OnePieceBot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
-from SaitamaRobot.modules.log_channel import gloggable
+from OnePieceBot.modules.log_channel import gloggable
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, run_async

@@ -1,5 +1,5 @@
-from SaitamaRobot.modules.helper_funcs.telethn import IMMUNE_USERS, telethn
-from SaitamaRobot import WORLD_GOVT
+from OnePieceBot.modules.helper_funcs.telethn import IMMUNE_USERS, telethn
+from OnePieceBot import WORLD_GOVT
 from telethon.tl.types import ChannelParticipantsAdmins
 
 

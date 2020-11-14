@@ -1,6 +1,6 @@
-from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
+from OnePieceBot.modules.helper_funcs.telethn.chatstatus import (
     can_delete_messages, user_is_admin)
-from SaitamaRobot import telethn
+from OnePieceBot import telethn
 import time
 from telethon import events
 

@@ -14,18 +14,18 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS, REVOLUTIONARIES,
+from OnePieceBot import (DEV_USERS, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS, REVOLUTIONARIES,
                           INFOPIC, dispatcher, sw)
-from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
-import SaitamaRobot.modules.sql.userinfo_sql as sql
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
-from SaitamaRobot.modules.sql.afk_sql import is_afk, check_afk_status
-from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
-from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
-from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as SaitamaTelethonClient, WARLORDS, WORLD_GOVT, ADMIRALS
+from OnePieceBot.__main__ import STATS, TOKEN, USER_INFO
+import OnePieceBot.modules.sql.userinfo_sql as sql
+from OnePieceBot.modules.disable import DisableAbleCommandHandler
+from OnePieceBot.modules.sql.global_bans_sql import is_user_gbanned
+from OnePieceBot.modules.sql.afk_sql import is_afk, check_afk_status
+from OnePieceBot.modules.sql.users_sql import get_user_num_chats
+from OnePieceBot.modules.sql.feds_sql import get_user_fbanlist
+from OnePieceBot.modules.helper_funcs.chat_status import sudo_plus
+from OnePieceBot.modules.helper_funcs.extraction import extract_user
+from OnePieceBot import telethn as SaitamaTelethonClient, WARLORDS, WORLD_GOVT, ADMIRALS
 
 
 def no_by_per(totalhp, percentage):

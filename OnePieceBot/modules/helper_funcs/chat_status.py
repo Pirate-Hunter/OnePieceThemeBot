@@ -1,8 +1,8 @@
 from functools import wraps
 
-from SaitamaRobot import (DEL_CMDS, DEV_USERS, WORLD_GOVT, SUPPORT_CHAT, ADMIRALS,
+from OnePieceBot import (DEL_CMDS, DEV_USERS, WORLD_GOVT, SUPPORT_CHAT, ADMIRALS,
                           WARLORDS, REVOLUTIONARIES, dispatcher)
-from SaitamaRobot.mwt import MWT
+from OnePieceBot.mwt import MWT
 from telegram import Chat, ChatMember, ParseMode, Update
 from telegram.ext import CallbackContext
 
@@ -378,6 +378,6 @@ def connection_status(func):
 
 
 # Workaround for circular import with connection.py
-from SaitamaRobot.modules import connection
+from OnePieceBot.modules import connection
 
 connected = connection.connected
