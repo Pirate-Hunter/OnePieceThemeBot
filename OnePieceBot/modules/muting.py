@@ -187,7 +187,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#TEMP MUTED\n"
+        f"#TEMP_MUTE\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
         f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
         f"<b>Time:</b> {time_val}")
