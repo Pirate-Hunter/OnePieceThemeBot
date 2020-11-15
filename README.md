@@ -5,7 +5,7 @@
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database and an entirely themed persona to make Luffy suitable for Anime and Manga group chats. 
 
-Can be found on telegram as [LuffyRobot](https://t.me/StrawhatRobot).
+Can be found on telegram as [LuffyRobot](https://t.me/Strawhat_Luffy_Robot).
 
 The Support group can be reached out to at [Luffy Support](http://t.me/OnePieceBase), where you can ask for help about [LuffyRobot](https://t.me/StrawhatRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
@@ -15,7 +15,7 @@ News channel as at [One Piece Updates](https://t.me/OnePieceUpdates)
 
 ### Read these notes carefully before proceeding 
  - Edit any mentions of @OnePunchSupport to your own support chat. 
- - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
+ - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/Pirate-Hunter/OnePieceThemeBot/blob/Dev/OnePieceBot/__main__.py#L25)
  - Lastly, if you are found to run this repo without the code being open sourced or the repository link not mentioned in the bot, we will push a gban for you in our network because of being in violation of the license, you are free to be a dick and not respect the open source code (we do not mind) but we will not be having you around our chats.
 
 
@@ -30,7 +30,7 @@ You only need to turn on only one of worker and Webhook
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
 ```
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://https://github.com/Pirate-Hunter/One-Piece-Theme-Bot.git)
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://https://github.com/Pirate-Hunter/OnePieceThemeBot.git)
 
 </details>  
 <details>
@@ -45,7 +45,7 @@ This is because markdown parsing is done by iterating through a dict, which is o
 There are two possible ways of configuring your bot: a config.py file, or ENV variables.
 
 The preferred version is to use a `config.py` file, as it makes it easier to see all your settings grouped together.
-This file should be placed in your `SaitamaRobot` folder, alongside the `__main__.py` file. 
+This file should be placed in your `OnePieceBot` folder, alongside the `__main__.py` file. 
 This is where your bot token will be loaded from, as well as your database URI (if you're using a database), and most of 
 your other settings.
 
@@ -168,7 +168,7 @@ All that is needed is that your .py file is in the modules folder.
 
 To add commands, make sure to import the dispatcher via
 
-`from SaitamaRobot import dispatcher`.
+`from OnePieceBot import dispatcher`.
 
 You can then add commands using the usual
 
@@ -198,7 +198,7 @@ For queries or any issues regarding the bot please open an issue ticket or visit
 ## How to setup on Heroku 
 For starters click on this button 
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git) 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Pirate-Hunter/OnePieceThemeBot.git) 
 
 
 ## Credits
@@ -209,4 +209,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [One Piece Support](https://t.me/OnePieceSupport) or simply submit a pull request on the readme.
+Should any be missing kindly let us know at [One Piece Base](https://t.me/OnePieceBase) or simply submit a pull request on the readme.
