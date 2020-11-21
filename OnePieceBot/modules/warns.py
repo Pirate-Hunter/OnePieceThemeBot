@@ -147,6 +147,218 @@ def warn(user: User,
             raise
     return log_reason
 
+def swarn(user: User,
+          chat: Chat,
+          context: CallbackContext
+          reason: str,
+          message: Message,
+          warner: User = None) -> str:
+    if is_user_admin(chat, user.id):
+      return
+
+    if user.id in WARLORDS:
+      if warner:
+        message.reply_text('Warlords cant be warned.')
+      else:
+        message.reply_text(
+          'A Warlord triggered an auto warn filter.\nI cant warn Warlords but they have to stop abusing this.')
+      return
+
+    if user.id in REVOLUTIONARIES:
+      if warner:
+        message.reply_text('Revolutionearies are warn immune.')
+      else:
+        message.reply_text('A revolutionary triggered an auto warn filter.\nI cant warn revolutionaries but they have to stop abusing this.')
+      return
+
+    if warner:
+        warner_tag = mention_html(warner.id, warner.first_name)
+    else :
+        warner_tag = 'Automated warn filter.'
+
+    bot = context.bot
+    limit, warn_setting = sql.get_warn_setting(chat.id)
+    num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
+    if num_warns >= limit:
+        sql.reset_warns(user.id, chat.id)
+        if warn_setting.lower() == 'punch':  # punch
+            chat.unban_member(user.id)
+            reply = (
+                f"<code>❕</code><b>Punch Event</b>\n"
+                f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<code> </code><b>•  Count:</b> {limit}")
+
+        elif warn_setting.lower() == 'ban':  # ban
+            chat.kick_member(user.id)
+            reply = (
+                f"<code>🔨</code><b>Ban Event</b>\n"
+                f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<code> </code><b>•  Count:</b> {limit}")
+
+        elif warn_setting.lower() == 'mute': # mute
+          usr = chat.get_member(user.id)
+          ChatPerms = ChatPermissions(can_send_messages=False)
+          if usr.can_send_messages is None or usr.can_send_messages:
+            bot.restict_chat_member(chat.id, user.id, ChatPerms)
+            reply = (
+              f"<code>❕</code><b>Mute Event</b>\n"
+              f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}"
+              f"<code> </code><b>•  Count:</b> {limit}"
+            )
+
+        for warn_reason in reasons:
+            reply += f"\n - {html.escape(warn_reason)}"
+
+        # message.bot.send_sticker(chat.id, BAN_STICKER)  # Saitama's sticker
+        keyboard = None
+        log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
+                      f"#WARN_BAN\n"
+                      f"<b>Admin:</b> {warner_tag}\n"
+                      f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
+                      f"<b>Reason:</b> {reason}\n"
+                      f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
+
+    else:
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                "🔘 Remove warn", callback_data="rm_warn({})".format(user.id))
+        ]])
+
+        reply = (
+            f"<code>❕</code><b>Warn Event</b>\n"
+            f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
+        if reason:
+            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+
+        log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
+                      f"#WARN\n"
+                      f"<b>Admin:</b> {warner_tag}\n"
+                      f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
+                      f"<b>Reason:</b> {reason}\n"
+                      f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
+
+    try:
+        message.reply_text(
+            reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+    except BadRequest as excp:
+        if excp.message == "Reply message not found":
+            # Do not reply
+            message.reply_text(
+                reply,
+                reply_markup=keyboard,
+                parse_mode=ParseMode.HTML,
+                quote=False)
+        else:
+            raise
+    return log_reason
+
+def sdwarn(user: User,
+          chat: Chat,
+          context: CallbackContext
+          reason: str,
+          message: Message,
+          warner: User = None) -> str:
+    if is_user_admin(chat, user.id):
+      return
+
+    if user.id in WARLORDS:
+      if warner:
+        message.reply_text('Warlords cant be warned.')
+      else:
+        message.reply_text(
+          'A Warlord triggered an auto warn filter.\nI cant warn Warlords but they have to stop abusing this.')
+      return
+
+    if user.id in REVOLUTIONARIES:
+      if warner:
+        message.reply_text('Revolutionearies are warn immune.')
+      else:
+        message.reply_text('A revolutionary triggered an auto warn filter.\nI cant warn revolutionaries but they have to stop abusing this.')
+      return
+
+    if warner:
+        warner_tag = mention_html(warner.id, warner.first_name)
+    else :
+        warner_tag = 'Automated warn filter.'
+
+    bot = context.bot
+    limit, warn_setting = sql.get_warn_setting(chat.id)
+    num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
+    if num_warns >= limit:
+        sql.reset_warns(user.id, chat.id)
+        if warn_setting.lower() == 'punch':  # punch
+            chat.unban_member(user.id)
+            reply = (
+                f"<code>❕</code><b>Punch Event</b>\n"
+                f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<code> </code><b>•  Count:</b> {limit}")
+
+        elif warn_setting.lower() == 'ban':  # ban
+            chat.kick_member(user.id)
+            reply = (
+                f"<code>🔨</code><b>Ban Event</b>\n"
+                f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<code> </code><b>•  Count:</b> {limit}")
+
+        elif warn_setting.lower() == 'mute': # mute
+          usr = chat.get_member(user.id)
+          ChatPerms = ChatPermissions(can_send_messages=False)
+          if usr.can_send_messages is None or usr.can_send_messages:
+            bot.restict_chat_member(chat.id, user.id, ChatPerms)
+            reply = (
+              f"<code>❕</code><b>Mute Event</b>\n"
+              f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}"
+              f"<code> </code><b>•  Count:</b> {limit}"
+            )
+
+        for warn_reason in reasons:
+            reply += f"\n - {html.escape(warn_reason)}"
+
+        # message.bot.send_sticker(chat.id, BAN_STICKER)  # Saitama's sticker
+        keyboard = None
+        log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
+                      f"#WARN_BAN\n"
+                      f"<b>Admin:</b> {warner_tag}\n"
+                      f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
+                      f"<b>Reason:</b> {reason}\n"
+                      f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
+
+    else:
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                "🔘 Remove warn", callback_data="rm_warn({})".format(user.id))
+        ]])
+
+        reply = (
+            f"<code>❕</code><b>Warn Event</b>\n"
+            f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
+        if reason:
+            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+
+        log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
+                      f"#WARN\n"
+                      f"<b>Admin:</b> {warner_tag}\n"
+                      f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
+                      f"<b>Reason:</b> {reason}\n"
+                      f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
+
+    try:
+        message.reply_text(
+            reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+    except BadRequest as excp:
+        if excp.message == "Reply message not found":
+            # Do not reply
+            message.reply_text(
+                reply,
+                reply_markup=keyboard,
+                parse_mode=ParseMode.HTML,
+                quote=False)
+        else:
+            raise
+    return log_reason
+
 def dwarn(user: User,
           chat: Chat,
           context: CallbackContext
@@ -314,6 +526,54 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 @can_restrict
 @loggable
 def dwarn_user(update: Update, context: CallbackContext) -> str:
+  args = context.args
+  ctx = context
+  message: Optional[Message] = update.effective_message
+  chat: Optional[Chat] = update.effective_chat
+  warner: Optional[User] = update.effective_user
+  
+  user_id, reason = extract_user_and_text(message, args)
+  
+  if user_id:
+    if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
+      return dwarn(message.reply_to_message.from_user, ctx, chat, reason,
+        message.reply_to_message,  warner)
+    else: 
+      return dwarn(
+        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+      
+  else:
+    message.reply_text('That looks like an invalid User ID to me.')
+
+@run_async
+@user_admin
+@can_restrict
+@loggable
+def swarn_user(update: Update, context: CallbackContext) -> str:
+  args = context.args
+  ctx = context
+  message: Optional[Message] = update.effective_message
+  chat: Optional[Chat] = update.effective_chat
+  warner: Optional[User] = update.effective_user
+  
+  user_id, reason = extract_user_and_text(message, args)
+  
+  if user_id:
+    if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
+      return dwarn(message.reply_to_message.from_user, ctx, chat, reason,
+        message.reply_to_message,  warner)
+    else: 
+      return dwarn(
+        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+      
+  else:
+    message.reply_text('That looks like an invalid User ID to me.')
+
+@run_async
+@user_admin
+@can_restrict
+@loggable
+def sdwarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
   ctx = context
   message: Optional[Message] = update.effective_message
