@@ -593,6 +593,16 @@ def sdwarn_user(update: Update, context: CallbackContext) -> str:
   else:
     message.reply_text('That looks like an invalid User ID to me.')
 
+def rm_warn(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    args = context.args
+    msg = update.effective_message
+    if not args:
+        if not msg.reply_to_message:
+            msg.reply("Provide a user to remove his warns")
+        else:
+            
+
 @run_async
 @user_admin
 @bot_admin
