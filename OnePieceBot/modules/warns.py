@@ -239,8 +239,8 @@ def swarn(user: User,
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
     try:
-        message.reply_text(
-            reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+        message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+        bot.deleteMessage(chat.id, message.reply_to_message.message_id)
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
@@ -344,9 +344,16 @@ def sdwarn(user: User,
                       f"<b>Reason:</b> {reason}\n"
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
+    msg_id = message.message_id
+    reply_msg_id = message.reply_to_message.message_id
+    to_delete = [msg_id, reply_msg_id]
     try:
-        message.reply_text(
-            reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+        message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+        for x in to_delete:
+            try:
+                bot.deleteMessage(chat.id, int(x))
+            except BadRequest as err:
+                return
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
@@ -451,8 +458,8 @@ def dwarn(user: User,
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
     try:
-        message.reply_text(
-            reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+        message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+        bot.deleteMessage(chat.id, message.message_id)
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
@@ -593,14 +600,29 @@ def sdwarn_user(update: Update, context: CallbackContext) -> str:
   else:
     message.reply_text('That looks like an invalid User ID to me.')
 
-def rm_warn(update: Update, context: CallbackContext) -> str:
+@run_async
+def rm_warn(
+    chat: Chat,
+    update: Update,
+    user: User,
+    context: CallbackContext) -> str:
     bot = context.bot
     args = context.args
     msg = update.effective_message
-    if not args:
-        if not msg.reply_to_message:
-            msg.reply("Provide a user to remove his warns")
+    rmwarn_tag = ''
+    limit, warn_setting = sql.get_warn_setting(chat.id)
+
+    if is_user_admin(chat, user.id): 
+        if not args:
+            if not msg.reply_to_message:
+                msg.reply("Provide a user to remove his warns")
+            else:
+                #TODO
         else:
+            #TODO
+
+    else:
+        mg.reply_text('Who dis non-admin guy telling me to remove his/her warn.')
             
 
 @run_async
