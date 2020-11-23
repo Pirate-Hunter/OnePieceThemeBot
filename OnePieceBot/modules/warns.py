@@ -936,17 +936,27 @@ __help__ = """
 
 *Admins only:*
  • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
+ • `/dwarn <userhandle>`*:* Same as `/warn`, but deletes the replied message if tagged.
+ • `/swarn <userhandle>`*:* Same as `/warn`, but deltes up the command sent by the warner.
+ • `/sdwarn <ususerhandle>`:* Same as `/warn`, but does both the functions of swarn, dwarn.
  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
  • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to \
 be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
  • `/nowarn <keyword>`*:* stop a warning filter
  • `/warnlimit <num>`*:* set the warning limit
  • `/maxwarnaction `*:* If set to on, exceeding the warn limit will result in a ban by default. Else, the custom action the chat has set.
+
+*Note*:
+ • `/dswarn`*:* Works as the same as `/sdwarn`.
 """
 
-__mod_name__ = "Warnings"
+__mod_name__ = "Warns"
 
 WARN_HANDLER = CommandHandler("warn", warn_user, filters=Filters.group)
+SWARN_HANDLER = CommandHandler("swarn", swarn_user, filters=Filters.group)
+DWARN_HANDLER = CommandHandler("dwarn", dwarn_user, filters=Filters.group)
+SDWARN_HANDLER = CommandHandler(["sdwarn", "dswarn"], sdwarn_user, filters=Filters.group)
+
 RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"],
                                     reset_warns,
                                     filters=Filters.group)
@@ -970,6 +980,9 @@ WARN_STRENGTH_HANDLER = CommandHandler(
     ["maxwarnaction", "warnaction"], set_warn_strength, filters=Filters.group)
 
 dispatcher.add_handler(WARN_HANDLER)
+disaptcher.add_handler(DWARN_HANDLER)
+dispatcher.add_handler(SWARN_HANDLER)
+dispatcher.add_handler(SDWARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
 dispatcher.add_handler(RESET_WARN_HANDLER)
 dispatcher.add_handler(MYWARNS_HANDLER)
