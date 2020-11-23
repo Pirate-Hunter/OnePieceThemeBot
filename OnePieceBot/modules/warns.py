@@ -981,7 +981,7 @@ WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group,
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
-    ["maxwarnaction", "warnaction"], set_warn_strength, filters=Filters.group)
+    ["maxwarnaction", "warnaction"], max_warn_action, filters=Filters.group)
 
 dispatcher.add_handler(WARN_HANDLER)
 disaptcher.add_handler(DWARN_HANDLER)
