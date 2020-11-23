@@ -149,7 +149,7 @@ def warn(user: User,
 
 def swarn(user: User,
           chat: Chat,
-          context: CallbackContext
+          context: CallbackContext,
           reason: str,
           message: Message,
           warner: User = None) -> str:
