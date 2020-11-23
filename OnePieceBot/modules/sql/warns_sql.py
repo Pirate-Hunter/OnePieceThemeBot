@@ -49,12 +49,12 @@ class WarnSettings(BASE):
     __tablename__ = "warn_settings"
     chat_id = Column(String(14), primary_key=True)
     warn_limit = Column(Integer, default=3)
-    soft_warn = Column(Boolean, default=False)
+    warn_setting = Column(String(14), default='ban')
 
     def __init__(self, chat_id, warn_limit=3, soft_warn=False):
         self.chat_id = str(chat_id)
         self.warn_limit = warn_limit
-        self.soft_warn = soft_warn
+        self.warn_setting = warn_setting
 
     def __repr__(self):
         return "<{} has {} possible warns.>".format(self.chat_id,
@@ -191,13 +191,13 @@ def set_warn_limit(chat_id, warn_limit):
         SESSION.commit()
 
 
-def set_warn_strength(chat_id, soft_warn):
+def set_warn_strength(chat_id, warn_setting):
     with WARN_SETTINGS_LOCK:
         curr_setting = SESSION.query(WarnSettings).get(str(chat_id))
         if not curr_setting:
-            curr_setting = WarnSettings(chat_id, soft_warn=soft_warn)
+            curr_setting = WarnSettings(chat_id, warn_setting=warn_setting)
 
-        curr_setting.soft_warn = soft_warn
+        curr_setting.warn_setting = warn_setting
 
         SESSION.add(curr_setting)
         SESSION.commit()
@@ -207,9 +207,9 @@ def get_warn_setting(chat_id):
     try:
         setting = SESSION.query(WarnSettings).get(str(chat_id))
         if setting:
-            return setting.warn_limit, setting.soft_warn
+            return setting.warn_limit, setting.warn_setting
         else:
-            return 3, False
+            return 3, 'ban'
 
     finally:
         SESSION.close()
