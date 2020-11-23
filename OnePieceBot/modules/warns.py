@@ -618,7 +618,7 @@ def rm_warn(
                 msg.reply("Provide a user to remove his warns")
             else:
                 #TODO
-        else:
+        elif args:
             #TODO
 
     else:
