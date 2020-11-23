@@ -612,14 +612,18 @@ def rm_warn(
     rmwarn_tag = ''
     limit, warn_setting = sql.get_warn_setting(chat.id)
 
-    if is_user_admin(chat, user.id): 
+    if is_user_admin(chat, user.id):
+
         if not args:
             if not msg.reply_to_message:
                 msg.reply("Provide a user to remove his warns")
             else:
+                return
                 #TODO
+
         elif args:
             #TODO
+            return
 
     else:
         mg.reply_text('Who dis non-admin guy telling me to remove his/her warn.')
