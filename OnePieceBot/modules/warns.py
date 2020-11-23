@@ -984,7 +984,7 @@ WARN_STRENGTH_HANDLER = CommandHandler(
     ["maxwarnaction", "warnaction"], max_warn_action, filters=Filters.group)
 
 dispatcher.add_handler(WARN_HANDLER)
-disaptcher.add_handler(DWARN_HANDLER)
+dispatcher.add_handler(DWARN_HANDLER)
 dispatcher.add_handler(SWARN_HANDLER)
 dispatcher.add_handler(SDWARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
