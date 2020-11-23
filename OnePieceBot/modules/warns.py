@@ -255,7 +255,7 @@ def swarn(user: User,
 
 def sdwarn(user: User,
           chat: Chat,
-          context: CallbackContext
+          context: CallbackContext,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -368,7 +368,7 @@ def sdwarn(user: User,
 
 def dwarn(user: User,
           chat: Chat,
-          context: CallbackContext
+          context: CallbackContext,
           reason: str,
           message: Message,
           warner: User = None) -> str:
