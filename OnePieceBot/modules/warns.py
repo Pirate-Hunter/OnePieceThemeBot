@@ -33,7 +33,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 # Not async
 def warn(user: User,
          chat: Chat,
-         conext: CallbackContext,
+         bot: any,
          reason: str,
          message: Message,
          warner: User = None) -> str:
@@ -64,7 +64,6 @@ def warn(user: User,
     else:
         warner_tag = "Automated warn filter."
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
 
@@ -149,7 +148,7 @@ def warn(user: User,
 
 def swarn(user: User,
           chat: Chat,
-          context: CallbackContext,
+          bot: any,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -176,7 +175,6 @@ def swarn(user: User,
     else :
         warner_tag = 'Automated warn filter.'
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
@@ -255,7 +253,7 @@ def swarn(user: User,
 
 def sdwarn(user: User,
           chat: Chat,
-          context: CallbackContext,
+          bot: any,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -282,7 +280,6 @@ def sdwarn(user: User,
     else :
         warner_tag = 'Automated warn filter.'
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
@@ -368,7 +365,7 @@ def sdwarn(user: User,
 
 def dwarn(user: User,
           chat: Chat,
-          context: CallbackContext,
+          bot: any,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -395,7 +392,6 @@ def dwarn(user: User,
     else :
         warner_tag = 'Automated warn filter.'
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
@@ -510,7 +506,7 @@ def button(update: Update, context: CallbackContext) -> str:
 @loggable
 def warn_user(update: Update, context: CallbackContext) -> str:
     args = context.args
-    ctx = context
+    bot = context.bot
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     warner: Optional[User] = update.effective_user
@@ -523,7 +519,7 @@ def warn_user(update: Update, context: CallbackContext) -> str:
                         message.reply_to_message, warner)
         else:
             return warn(
-                chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+                chat.get_member(user_id).user, chat, bot, reason, message, warner)
     else:
         message.reply_text("That looks like an invalid User ID to me.")
     return ""
@@ -534,7 +530,7 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 @loggable
 def dwarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
-  ctx = context
+  bot = context.bot
   message: Optional[Message] = update.effective_message
   chat: Optional[Chat] = update.effective_chat
   warner: Optional[User] = update.effective_user
@@ -547,7 +543,7 @@ def dwarn_user(update: Update, context: CallbackContext) -> str:
         message.reply_to_message,  warner)
     else: 
       return dwarn(
-        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+        chat.get_member(user_id).user, chat, bot, reason, message, warner)
       
   else:
     message.reply_text('That looks like an invalid User ID to me.')
@@ -558,7 +554,7 @@ def dwarn_user(update: Update, context: CallbackContext) -> str:
 @loggable
 def swarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
-  ctx = context
+  bot = context.bot
   message: Optional[Message] = update.effective_message
   chat: Optional[Chat] = update.effective_chat
   warner: Optional[User] = update.effective_user
@@ -571,7 +567,7 @@ def swarn_user(update: Update, context: CallbackContext) -> str:
         message.reply_to_message,  warner)
     else: 
       return dwarn(
-        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+        chat.get_member(user_id).user, chat, bot, reason, message, warner)
       
   else:
     message.reply_text('That looks like an invalid User ID to me.')
@@ -582,7 +578,7 @@ def swarn_user(update: Update, context: CallbackContext) -> str:
 @loggable
 def sdwarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
-  ctx = context
+  bot = context.bot
   message: Optional[Message] = update.effective_message
   chat: Optional[Chat] = update.effective_chat
   warner: Optional[User] = update.effective_user
@@ -595,7 +591,7 @@ def sdwarn_user(update: Update, context: CallbackContext) -> str:
         message.reply_to_message,  warner)
     else: 
       return dwarn(
-        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+        chat.get_member(user_id).user, chat, bot, reason, message, warner)
       
   else:
     message.reply_text('That looks like an invalid User ID to me.')
@@ -609,21 +605,36 @@ def rm_warn(
     bot = context.bot
     args = context.args
     msg = update.effective_message
-    rmwarn_tag = ''
     limit, warn_setting = sql.get_warn_setting(chat.id)
 
     if is_user_admin(chat, user.id):
-
-        if not args:
-            if not msg.reply_to_message:
-                msg.reply("Provide a user to remove his warns")
+        user_id = extract_user(msg, args)
+        if not user_id:
+            msg.reply_text("Provide a user to check his/her warns and remove them.")
+        else:
+            warns = sql.get_warns(user_id, chat.id)
+            if warns and warns[0] != 0:
+                num_warns, reasons = warns
+                if num_warns >= limit:
+                    msg.reply_text("This user has already been punished.")
+                else:
+                    keyboard = InlineKeyboardMarkup([[
+                        InlineKeyboardButton(
+                        "🔘 Remove warn", callback_data="rm_warn({})".format(user_id))
+                    ]])
+                    try:
+                        msg.reply_text(
+                            f"This user has {num_warns}/{limit} warns.",
+                            reply_markup=keyboard
+                        )
+                    except BadRequest as err:
+                        msg.reply_text(
+                            f"This user has {num_warns}/{limit} warns.",
+                            reply_markup=keyboard,
+                            quote=False
+                        )
             else:
-                return
-                #TODO
-
-        elif args:
-            #TODO
-            return
+                msg.reply_text("This user doesn't have any warns.")
 
     else:
         mg.reply_text('Who dis non-admin guy telling me to remove his/her warn.')
@@ -664,7 +675,7 @@ def warns(update: Update, context: CallbackContext):
 
     if result and result[0] != 0:
         num_warns, reasons = result
-        limit, soft_warn = sql.get_warn_setting(chat.id)
+        limit, warn_setting = sql.get_warn_setting(chat.id)
 
         if reasons:
             text = f"This user has {num_warns}/{limit} warns, for the following reasons:"
@@ -951,6 +962,7 @@ be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is
  • `/maxwarnaction `*:* If set to on, exceeding the warn limit will result in a ban by default. Else, the custom action the chat has set.
 
 *Note*:
+ • `/warnaction`*:* Works the same `/maxwarnaction`.
  • `/dswarn`*:* Works as the same as `/sdwarn`.
 """
 
@@ -960,6 +972,7 @@ WARN_HANDLER = CommandHandler("warn", warn_user, filters=Filters.group)
 SWARN_HANDLER = CommandHandler("swarn", swarn_user, filters=Filters.group)
 DWARN_HANDLER = CommandHandler("dwarn", dwarn_user, filters=Filters.group)
 SDWARN_HANDLER = CommandHandler(["sdwarn", "dswarn"], sdwarn_user, filters=Filters.group)
+RM_WARN_CMD_HANDLER = CommandHandler("rmwarn", rm_warn, filters=Filters.group)
 
 RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"],
                                     reset_warns,
@@ -987,6 +1000,8 @@ dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(DWARN_HANDLER)
 dispatcher.add_handler(SWARN_HANDLER)
 dispatcher.add_handler(SDWARN_HANDLER)
+dispatcher.add_handler(RM_WARN_CMD_HANDLER)
+
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
 dispatcher.add_handler(RESET_WARN_HANDLER)
 dispatcher.add_handler(MYWARNS_HANDLER)
