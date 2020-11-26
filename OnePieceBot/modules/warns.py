@@ -606,21 +606,36 @@ def rm_warn(
     bot = context.bot
     args = context.args
     msg = update.effective_message
-    rmwarn_tag = ''
     limit, warn_setting = sql.get_warn_setting(chat.id)
 
     if is_user_admin(chat, user.id):
-
-        if not args:
-            if not msg.reply_to_message:
-                msg.reply("Provide a user to remove his warns")
+        user_id = extract_user(msg, args)
+        if not user_id:
+            msg.reply_text("Provide a user to check his/her warns and remove them.")
+        else:
+            warns = sql.get_warns(user_id, chat.id)
+            if warns and warns[0] != 0:
+                num_warns, reasons = warns
+                if num_warns >= limit:
+                    msg.reply_text("This user has already been punished.")
+                else:
+                    keyboard = InlineKeyboardMarkup([[
+                        InlineKeyboardButton(
+                        "🔘 Remove warn", callback_data="rm_warn({})".format(user_id))
+                    ]])
+                    try:
+                        msg.reply_text(
+                            f"This user has {num_warns}/{limit} warns.",
+                            reply_markup=keyboard
+                        )
+                    except BadRequest as err:
+                        msg.reply_text(
+                            f"This user has {num_warns}/{limit} warns.",
+                            reply_markup=keyboard,
+                            quote=False
+                        )
             else:
-                return
-                #TODO
-
-        elif args:
-            #TODO
-            return
+                msg.reply_text("This user doesn't have any warns.")
 
     else:
         mg.reply_text('Who dis non-admin guy telling me to remove his/her warn.')
@@ -928,6 +943,7 @@ __help__ = """
  • `/dwarn <userhandle>`*:* Same as `/warn`, but deletes the replied message if tagged.
  • `/swarn <userhandle>`*:* Same as `/warn`, but deltes up the command sent by the warner.
  • `/sdwarn <ususerhandle>`:* Same as `/warn`, but does both the functions of swarn, dwarn.
+ • `/rmwarn <userhandle>*:* Remove a warn of a user.
  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
  • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to \
 be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
@@ -945,6 +961,7 @@ WARN_HANDLER = CommandHandler("warn", warn_user, filters=Filters.group)
 SWARN_HANDLER = CommandHandler("swarn", swarn_user, filters=Filters.group)
 DWARN_HANDLER = CommandHandler("dwarn", dwarn_user, filters=Filters.group)
 SDWARN_HANDLER = CommandHandler(["sdwarn", "dswarn"], sdwarn_user, filters=Filters.group)
+RM_WARN_CMD_HANDLER = CommandHandler("rmwarn", rm_warn, filters=Filters.groups)
 
 RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"],
                                     reset_warns,
@@ -972,6 +989,8 @@ dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(DWARN_HANDLER)
 dispatcher.add_handler(SWARN_HANDLER)
 dispatcher.add_handler(SDWARN_HANDLER)
+dispatcher.add_handler(RM_WARN_CMD_HANDLER)
+
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
 dispatcher.add_handler(RESET_WARN_HANDLER)
 dispatcher.add_handler(MYWARNS_HANDLER)
