@@ -33,7 +33,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 # Not async
 def warn(user: User,
          chat: Chat,
-         conext: CallbackContext,
+         bot : any,
          reason: str,
          message: Message,
          warner: User = None) -> str:
@@ -64,27 +64,26 @@ def warn(user: User,
     else:
         warner_tag = "Automated warn filter."
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
 
     if num_warns >= limit:
         sql.reset_warns(user.id, chat.id)
-        if warn_setting.lower() == 'punch':  # punch
+        if warn_setting == 1:  # punch
             chat.unban_member(user.id)
             reply = (
                 f"<code>❕</code><b>Punch Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'ban':  # ban
+        elif warn_setting == 0:  # ban
             chat.kick_member(user.id)
             reply = (
                 f"<code>🔨</code><b>Ban Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'mute': # mute
+        elif warn_setting == 2: # mute
           usr = chat.get_member(user.id)
           ChatPerms = ChatPermissions(can_send_messages=False)
           if usr.can_send_messages is None or usr.can_send_messages:
@@ -149,7 +148,7 @@ def warn(user: User,
 
 def swarn(user: User,
           chat: Chat,
-          context: CallbackContext,
+          bot: any,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -176,26 +175,25 @@ def swarn(user: User,
     else :
         warner_tag = 'Automated warn filter.'
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
         sql.reset_warns(user.id, chat.id)
-        if warn_setting.lower() == 'punch':  # punch
+        if warn_setting == 1:  # punch
             chat.unban_member(user.id)
             reply = (
                 f"<code>❕</code><b>Punch Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'ban':  # ban
+        elif warn_setting == 0:  # ban
             chat.kick_member(user.id)
             reply = (
                 f"<code>🔨</code><b>Ban Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'mute': # mute
+        elif warn_setting == 2: # mute
           usr = chat.get_member(user.id)
           ChatPerms = ChatPermissions(can_send_messages=False)
           if usr.can_send_messages is None or usr.can_send_messages:
@@ -255,7 +253,7 @@ def swarn(user: User,
 
 def sdwarn(user: User,
           chat: Chat,
-          context: CallbackContext,
+          bot: any,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -282,26 +280,25 @@ def sdwarn(user: User,
     else :
         warner_tag = 'Automated warn filter.'
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
         sql.reset_warns(user.id, chat.id)
-        if warn_setting.lower() == 'punch':  # punch
+        if warn_setting == 1:  # punch
             chat.unban_member(user.id)
             reply = (
                 f"<code>❕</code><b>Punch Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'ban':  # ban
+        elif warn_setting == 0:  # ban
             chat.kick_member(user.id)
             reply = (
                 f"<code>🔨</code><b>Ban Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'mute': # mute
+        elif warn_setting == 2: # mute
           usr = chat.get_member(user.id)
           ChatPerms = ChatPermissions(can_send_messages=False)
           if usr.can_send_messages is None or usr.can_send_messages:
@@ -368,7 +365,7 @@ def sdwarn(user: User,
 
 def dwarn(user: User,
           chat: Chat,
-          context: CallbackContext,
+          bot: any,
           reason: str,
           message: Message,
           warner: User = None) -> str:
@@ -395,26 +392,25 @@ def dwarn(user: User,
     else :
         warner_tag = 'Automated warn filter.'
 
-    bot = context.bot
     limit, warn_setting = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
         sql.reset_warns(user.id, chat.id)
-        if warn_setting.lower() == 'punch':  # punch
+        if warn_setting == 1:  # punch
             chat.unban_member(user.id)
             reply = (
                 f"<code>❕</code><b>Punch Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'ban':  # ban
+        elif warn_setting == 0:  # ban
             chat.kick_member(user.id)
             reply = (
                 f"<code>🔨</code><b>Ban Event</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
-        elif warn_setting.lower() == 'mute': # mute
+        elif warn_setting == 2: # mute
           usr = chat.get_member(user.id)
           ChatPerms = ChatPermissions(can_send_messages=False)
           if usr.can_send_messages is None or usr.can_send_messages:
@@ -510,7 +506,7 @@ def button(update: Update, context: CallbackContext) -> str:
 @loggable
 def warn_user(update: Update, context: CallbackContext) -> str:
     args = context.args
-    ctx = context
+    bot = context.bot
     message: Optional[Message] = update.effective_message
     chat: Optional[Chat] = update.effective_chat
     warner: Optional[User] = update.effective_user
@@ -519,11 +515,11 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 
     if user_id:
         if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
-            return warn(message.reply_to_message.from_user, chat, ctx,  reason,
+            return warn(message.reply_to_message.from_user, chat, bot,  reason,
                         message.reply_to_message, warner)
         else:
             return warn(
-                chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+                chat.get_member(user_id).user, chat, bot, reason, message, warner)
     else:
         message.reply_text("That looks like an invalid User ID to me.")
     return ""
@@ -534,7 +530,7 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 @loggable
 def dwarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
-  ctx = context
+  bot = context.bot
   message: Optional[Message] = update.effective_message
   chat: Optional[Chat] = update.effective_chat
   warner: Optional[User] = update.effective_user
@@ -543,11 +539,11 @@ def dwarn_user(update: Update, context: CallbackContext) -> str:
   
   if user_id:
     if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
-      return dwarn(message.reply_to_message.from_user, ctx, chat, reason,
+      return dwarn(message.reply_to_message.from_user, bot, chat, reason,
         message.reply_to_message,  warner)
     else: 
       return dwarn(
-        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+        chat.get_member(user_id).user, chat, bot, reason, message, warner)
       
   else:
     message.reply_text('That looks like an invalid User ID to me.')
@@ -558,7 +554,7 @@ def dwarn_user(update: Update, context: CallbackContext) -> str:
 @loggable
 def swarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
-  ctx = context
+  bot = context.bot
   message: Optional[Message] = update.effective_message
   chat: Optional[Chat] = update.effective_chat
   warner: Optional[User] = update.effective_user
@@ -567,11 +563,11 @@ def swarn_user(update: Update, context: CallbackContext) -> str:
   
   if user_id:
     if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
-      return dwarn(message.reply_to_message.from_user, ctx, chat, reason,
+      return dwarn(message.reply_to_message.from_user, bot, chat, reason,
         message.reply_to_message,  warner)
     else: 
       return dwarn(
-        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+        chat.get_member(user_id).user, chat, bot, reason, message, warner)
       
   else:
     message.reply_text('That looks like an invalid User ID to me.')
@@ -582,7 +578,7 @@ def swarn_user(update: Update, context: CallbackContext) -> str:
 @loggable
 def sdwarn_user(update: Update, context: CallbackContext) -> str:
   args = context.args
-  ctx = context
+  bot = context.bot
   message: Optional[Message] = update.effective_message
   chat: Optional[Chat] = update.effective_chat
   warner: Optional[User] = update.effective_user
@@ -591,11 +587,11 @@ def sdwarn_user(update: Update, context: CallbackContext) -> str:
   
   if user_id:
     if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
-      return dwarn(message.reply_to_message.from_user, ctx, chat, reason,
+      return dwarn(message.reply_to_message.from_user, bot, chat, reason,
         message.reply_to_message,  warner)
     else: 
       return dwarn(
-        chat.get_member(user_id).user, chat, ctx, reason, message, warner)
+        chat.get_member(user_id).user, chat, bot, reason, message, warner)
       
   else:
     message.reply_text('That looks like an invalid User ID to me.')
@@ -828,7 +824,7 @@ def set_warn_limit(update: Update, context: CallbackContext) -> str:
         else:
             msg.reply_text("Give me a number as an arg!")
     else:
-        limit, soft_warn = sql.get_warn_setting(chat.id)
+        limit, warn_setting = sql.get_warn_setting(chat.id)
 
         msg.reply_text("The current warn limit is {}".format(limit))
     return ""
@@ -843,8 +839,8 @@ def max_warn_action(update: Update, context: CallbackContext):
     msg: Optional[Message] = update.effective_message
 
     if args:
-        if args[0].lower() in ('ban'): #ban
-            sql.set_warn_strength(chat.id, 'ban')
+        if args[0] == 'ban': #ban
+            sql.set_warn_strength(chat.id, 0)
             msg.reply_text("Too many warns will now result in a Ban!")
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -853,8 +849,8 @@ def max_warn_action(update: Update, context: CallbackContext):
                 f"Has enabled strong warns. Users will be seriously punched.(banned)"
             )
 
-        elif args[0].lower() in ('kick', 'punch'): #punch
-            sql.set_warn_strength(chat.id, 'kick')
+        elif args[0] in ('kick', 'punch'): #punch
+            sql.set_warn_strength(chat.id, 1)
             msg.reply_text(
                 "Too many warns will now result in a normal punch! Users will be able to join again after."
             )
@@ -865,9 +861,9 @@ def max_warn_action(update: Update, context: CallbackContext):
                 f"Has disabled consicutive normal punches. I will use normal punch on users."
             )
 
-        elif args[0].lower() in ('mute', 'tmute'): #mute or tmute
+        elif : #mute or tmute
           if args[0].lower() == 'mute': # mute
-            sql.set_warn_strength(chat.id, 'mute')
+            sql.set_warn_strength(chat.id, 2)
             msg.reply_text(
               'The warn strength strength has been set to mute!\nEveryone stays alive, lmao.'
             )
@@ -877,33 +873,21 @@ def max_warn_action(update: Update, context: CallbackContext):
               f"<b>Filter:</b> Mute\n"
               f"Has disabled even normal consecutive punches & it's now a normal punch"
             )
-          elif args[0].lower() == 'tmute': # tmute
-            if re.match(r"[0-9]+(m|h|d)", str(args[1].lower())):
-              _filter = ' '.join([args[0].lower(), args[1].lower()])
-              sql.set_warn_strength(chat.id, _filter)
-              msg.reply_text(
-                "This group has set it's warn filter to temp mute.\nUsers will live even longer.")
-              return (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"<b>Filter:</b> {_filter}\n"
-                f"Has now changed the warn filter to Temp Mute.\nI not every one will live longer! Oml"
-              )
-            else:
-              msg.reply_text(
-                "That doesn't seem like a correct time format to me.\nI can only recognise *m*(minutes), *h*(hours), *d*(days)",
-                parse_mode=ParseMode.MARKDOWN)
           else:
             return
 
         else:
-            msg.reply_text("I only understand <mute|tmute|punch|ban>")
+            msg.reply_text("I only understand <mute|punch|ban>")
     else:
         limit, warn_setting = sql.get_warn_setting(chat.id)
         text = 'Warns are currently set to *{}* when they exceed their warn limit.'
-        if re.match(r"(ban|punch|tmute\s[0-9]+(m|h|d)|mute)", warn_setting):
-          text.format(warn_setting)
-          msg.reply_text(text, prse_mode=ParseMode.MARKDOWN)
+        if warn_setting == 0:
+          text.format('ban')
+        elif warn_setting == 1:
+          text.format('punch')
+        elif warn_setting == 2:
+          text.format('mute')
+        msg.reply_text(text, prse_mode=ParseMode.MARKDOWN)
 
     return ""
 

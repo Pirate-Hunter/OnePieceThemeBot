@@ -49,7 +49,7 @@ class WarnSettings(BASE):
     __tablename__ = "warn_settings"
     chat_id = Column(String(14), primary_key=True)
     warn_limit = Column(Integer, default=3)
-    warn_setting = Column(String(14), default='ban')
+    warn_setting = Column(Integer, default=0)
 
     def __init__(self, chat_id, warn_limit=3, soft_warn=False):
         self.chat_id = str(chat_id)
@@ -209,7 +209,7 @@ def get_warn_setting(chat_id):
         if setting:
             return setting.warn_limit, setting.warn_setting
         else:
-            return 3, 'ban'
+            return 3, 0
 
     finally:
         SESSION.close()
