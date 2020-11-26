@@ -597,6 +597,7 @@ def sdwarn_user(update: Update, context: CallbackContext) -> str:
     message.reply_text('That looks like an invalid User ID to me.')
 
 @run_async
+@user_admin
 def rm_warn(
     chat: Chat,
     update: Update,
