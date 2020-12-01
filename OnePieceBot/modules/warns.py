@@ -538,7 +538,7 @@ def dwarn_user(update: Update, context: CallbackContext) -> str:
   user_id, reason = extract_user_and_text(message, args)
   
   if user_id:
-    if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
+    if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
       return dwarn(message.reply_to_message.from_user, bot, chat, reason,
         message.reply_to_message,  warner)
     else: 
@@ -562,7 +562,7 @@ def swarn_user(update: Update, context: CallbackContext) -> str:
   user_id, reason = extract_user_and_text(message, args)
   
   if user_id:
-    if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
+    if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
       return dwarn(message.reply_to_message.from_user, bot, chat, reason,
         message.reply_to_message,  warner)
     else: 
@@ -586,7 +586,7 @@ def sdwarn_user(update: Update, context: CallbackContext) -> str:
   user_id, reason = extract_user_and_text(message, args)
   
   if user_id:
-    if mesaage.reply_to_message and message.reply_to_message.from_user.id == user_id:
+    if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
       return dwarn(message.reply_to_message.from_user, bot, chat, reason,
         message.reply_to_message,  warner)
     else: 
