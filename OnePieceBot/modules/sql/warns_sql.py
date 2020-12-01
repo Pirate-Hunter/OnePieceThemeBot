@@ -1,6 +1,6 @@
 import threading
 
-from OnePieceBot.modules.sql import BASE, SESSION
+from SaitamaRobot.modules.sql import BASE, SESSION
 from sqlalchemy import (Boolean, Column, Integer, String, UnicodeText, distinct,
                         func)
 from sqlalchemy.dialects import postgresql
@@ -49,12 +49,12 @@ class WarnSettings(BASE):
     __tablename__ = "warn_settings"
     chat_id = Column(String(14), primary_key=True)
     warn_limit = Column(Integer, default=3)
-    warn_setting = Column(Integer, default=0)
+    soft_warn = Column(Boolean, default=False)
 
     def __init__(self, chat_id, warn_limit=3, soft_warn=False):
         self.chat_id = str(chat_id)
         self.warn_limit = warn_limit
-        self.warn_setting = warn_setting
+        self.soft_warn = soft_warn
 
     def __repr__(self):
         return "<{} has {} possible warns.>".format(self.chat_id,
@@ -191,13 +191,13 @@ def set_warn_limit(chat_id, warn_limit):
         SESSION.commit()
 
 
-def set_warn_strength(chat_id, warn_setting):
+def set_warn_strength(chat_id, soft_warn):
     with WARN_SETTINGS_LOCK:
         curr_setting = SESSION.query(WarnSettings).get(str(chat_id))
         if not curr_setting:
-            curr_setting = WarnSettings(chat_id, warn_setting=warn_setting)
+            curr_setting = WarnSettings(chat_id, soft_warn=soft_warn)
 
-        curr_setting.warn_setting = warn_setting
+        curr_setting.soft_warn = soft_warn
 
         SESSION.add(curr_setting)
         SESSION.commit()
@@ -207,9 +207,9 @@ def get_warn_setting(chat_id):
     try:
         setting = SESSION.query(WarnSettings).get(str(chat_id))
         if setting:
-            return setting.warn_limit, setting.warn_setting
+            return setting.warn_limit, setting.soft_warn
         else:
-            return 3, 0
+            return 3, False
 
     finally:
         SESSION.close()
