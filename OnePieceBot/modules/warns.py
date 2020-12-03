@@ -183,6 +183,36 @@ def warn_user(update: Update, context: CallbackContext) -> str:
         message.reply_text("That looks like an invalid User ID to me.")
     return ""
 
+@run_async
+@user_admin
+@bot_admin
+def rmwarn_cmd(update: Update, context: CallbackContext) -> str:
+    args = context.args
+    message: Optional[Message] = update.effective_message
+    chat: Optional[Chat] = update.effective_chat
+
+    user_id = extract_user(message, args)
+
+    if user_id:
+        warns = sql.get_warns(user_id, chat.id)
+        if warns and warns[0] !=0:
+            num_warns, reasons = warns
+            limit, soft_warn = sql.get_warn_setting(chat.id)
+            keyboard = InlineKeyboardMarkup([[
+                InlineKeyboardButton(
+                  "Remove warn", callback_data="rm_wamr({})".format(user_id)
+            ]])
+            reply_text = f"This user has {num_warns}/{limit} warns."
+            try:
+                message.reply_text(reply_text, reply_markup=keyboard)
+            except BadRequest as err:
+                message.reply_text(
+                  reply_text, reply_markup=keyboard, quote=False)
+        else:
+            message.reply_text("This user doesn't have any warns.")
+    else:
+        message.reply_text("No user has been mentioned.")
+    return ""
 
 @run_async
 @user_admin
@@ -484,6 +514,8 @@ MYWARNS_HANDLER = DisableAbleCommandHandler(
     "warns", warns, filters=Filters.group)
 ADD_WARN_HANDLER = CommandHandler(
     "addwarn", add_warn_filter, filters=Filters.group)
+REMOVE_WARN_HANDLER = CommandHandler(
+    "rmwarn", rmwarn_cmd, filters=Filters.group)
 RM_WARN_HANDLER = CommandHandler(["nowarn", "stopwarn"],
                                  remove_warn_filter,
                                  filters=Filters.group)
@@ -501,6 +533,7 @@ WARN_STRENGTH_HANDLER = CommandHandler(
 dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
 dispatcher.add_handler(RESET_WARN_HANDLER)
+dispatcher.add_handler(REMOVE_WARN_HANDLER)
 dispatcher.add_handler(MYWARNS_HANDLER)
 dispatcher.add_handler(ADD_WARN_HANDLER)
 dispatcher.add_handler(RM_WARN_HANDLER)
