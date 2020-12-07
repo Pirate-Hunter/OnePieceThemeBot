@@ -214,8 +214,8 @@ def dwarn(user: User,
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
     try:
-        print(message)
-        bot.deleteMessage(chat.id, message.reply_to_message.message_id)
+        print(message.id)
+        bot.deleteMessage(chat.id, message.reply_to_message.id)
     except BadRequest as err:
         return
 
