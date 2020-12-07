@@ -319,7 +319,7 @@ def swarn(user: User,
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
     try:
-        bot.deleteMessage(chat.id, message.mesaage_id)
+        bot.deleteMessage(chat.id, message.id)
     except BadRequest as err:
         return
 
